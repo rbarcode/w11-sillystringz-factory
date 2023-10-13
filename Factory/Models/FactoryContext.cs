@@ -8,5 +8,7 @@ namespace Factory.Models
     public DbSet<Machine> Machines { get; set; }
     public DbSet<Licensure> Licensures { get; set; }
     public DbSet<ActiveRepairs> ActiveRepairs { get; set; }
+
+    public FactoryContext(DbContextOptions options) : base(options) { }
   }
 }
