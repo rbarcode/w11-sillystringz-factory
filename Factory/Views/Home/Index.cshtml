@@ -17,7 +17,7 @@
   @foreach(Engineer engineer in Model["engineers"])
   {
     string FullName = @engineer.LastName + ", " + @engineer.FirstName;
-    <li>@Html.ActionLink(FullName, "Details", "Engineers")</li>
+    <li>@Html.ActionLink(FullName, "Details", "Engineers", new { id = @engineer.EngineerId})</li>
   }
 </ul>
 <p>@Html.ActionLink("Engineer Home Page", "Index", "Engineers")</p>

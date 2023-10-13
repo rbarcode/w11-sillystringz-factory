@@ -38,6 +38,7 @@ namespace Factory.Controllers
     {
       Machine thisMachine = _db.Machines
                 .Include(machine => machine.JoinEntitiesLicensure)
+                .ThenInclude(join => join.Engineer)
                 .Include(machine => machine.JoinEntitiesActiveRepairs)
                 .ThenInclude(join => join.Engineer)
                 .FirstOrDefault(machine => machine.MachineId == id);
