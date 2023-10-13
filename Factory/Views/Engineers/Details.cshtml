@@ -15,6 +15,7 @@
 @if (Model.JoinEntitiesLicensure.Count == 0)
 {
   <p>This engineer is not licensed to repair any machines.</p>
+  <p>@Html.ActionLink("Add Licensure", "AddMachine", new { id = Model.EngineerId} )</p>
 }
 else
 {
@@ -32,6 +33,7 @@ else
 @if (Model.JoinEntitiesActiveRepairs.Count == 0)
 {
   <p>This engineer is not currently repairing any machines.</p>
+  <p>@Html.ActionLink("Assign a Machine to Repair", "AddRepairs", new { id = Model.EngineerId} )</p>
 }
 else
 {
@@ -45,7 +47,7 @@ else
   </ul>
 }
 <br>
-<p>@Html.ActionLink("Add Licensure", "AddMachine", new { id = Model.EngineerId} )</p>
-<p>@Html.ActionLink("Assign to a Repair", "AddRepairs", new { id = Model.EngineerId} )</p>
+
+
 <p>@Html.ActionLink("Return List of Engineers", "Index")</p>
 <p>@Html.ActionLink("Home", "Index", "Home")</p>

@@ -8,14 +8,17 @@
 
 @using (Html.BeginForm())
 {
+  <div>@Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger", @style = "font-weight: 600;" })</div>
   @Html.Label("First Name")
-  @Html.TextBoxFor(model => model.FirstName)
+  @Html.TextBoxFor(model => model.FirstName, new { required = "required"})
   <br>
+  <div>@Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger", @style = "font-weight: 600;" })</div>
   @Html.Label("Last Name")
-  @Html.TextBoxFor(model => model.LastName)
+  @Html.TextBoxFor(model => model.LastName, new { required = "required"})
+  <br>
   <br>
   <input type="submit" value="Add Engineer" class="btn btn-primary" />
 }
-
+<br>
 <p>@Html.ActionLink("Return List of Engineers", "Index")</p>
 <p>@Html.ActionLink("Home", "Index", "Home")</p>
