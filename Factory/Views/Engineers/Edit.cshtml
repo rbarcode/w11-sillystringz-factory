@@ -1,0 +1,24 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Factory.Models.Engineer
+
+<h4>Edit details for @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h4>
+
+@using (Html.BeginForm())
+{
+  @Html.HiddenFor(model => model.EngineerId)
+
+  @Html.Label("First Name")
+  @Html.TextBoxFor(model => model.FirstName)
+  <br>
+  @Html.Label("Last Name")
+  @Html.TextBoxFor(model => model.LastName)
+  <br>
+  <input type="submit" value="Save" />
+}
+<br>
+<p>@Html.ActionLink($"Return to Details for {Model.FirstName} {Model.LastName}", "Details", new { id = Model.EngineerId} )</p>
+<p>@Html.ActionLink("Return List of Engineers", "Index")</p>
+<p>@Html.ActionLink("Home", "Index", "Home")</p>

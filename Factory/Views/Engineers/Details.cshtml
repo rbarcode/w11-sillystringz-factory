@@ -1,0 +1,51 @@
+@{
+  Layout = "_Layout";
+}
+
+@using Factory.Models
+@model Factory.Models.Engineer
+
+<h2>Engineer Details</h2>
+
+<hr />
+
+<h3>Name: @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h3>
+
+<h4>Licensed to Repair:</h4>
+@if (Model.JoinEntitiesLicensure.Count == 0)
+{
+  <p>This engineer is not licensed to repair any machines.</p>
+}
+else
+{
+  <ul>
+    @foreach (Licensure join in Model.JoinEntitiesLicensure)
+    {
+      <li>@join.Machine.Name</li>
+      @Html.Hidden("joinId", @join.LicensureId)
+      <input type="submit" value="Delete"/>
+    }
+  </ul>
+}
+<br>
+<h4>Active Repairs:</h4>
+@if (Model.JoinEntitiesActiveRepairs.Count == 0)
+{
+  <p>This engineer is not currently repairing any machines.</p>
+}
+else
+{
+  <ul>
+    @foreach (ActiveRepairs join in Model.JoinEntitiesActiveRepairs)
+    {
+      <li>@join.Machine.Name</li>
+      @Html.Hidden("joinId", @join.ActiveRepairsId)
+      <input type="submit" value="Delete"/>
+    }
+  </ul>
+}
+<br>
+<p>@Html.ActionLink("Add Licensure", "AddMachine", new { id = Model.EngineerId} )</p>
+<p>@Html.ActionLink("Assign a Machine to Repair", "AddRepairs", new { id = Model.EngineerId} )</p>
+<p>@Html.ActionLink("Return List of Engineers", "Index")</p>
+<p>@Html.ActionLink("Home", "Index", "Home")</p>
