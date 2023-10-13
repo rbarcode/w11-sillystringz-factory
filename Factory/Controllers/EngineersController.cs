@@ -4,9 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using Factory.Models;
-using System.Collections.Immutable;
 using System;
-using Microsoft.Win32;
 
 namespace Factory.Controllers
 {
@@ -67,6 +65,27 @@ namespace Factory.Controllers
       return RedirectToAction("Details", new { id = engineer.EngineerId});
     }
 
+    public ActionResult AddRepairs(int id)
+    {
+      Engineer thisEngineer = _db.Engineers.FirstOrDefault(engineers => engineers.EngineerId == id);
+      ViewBag.MachineId = new SelectList(_db.Machines, "MachineId", "Name");
+      return View(thisEngineer);
+    }
+
+    [HttpPost]
+    public ActionResult AddRepairs(Engineer engineer, int machineId)
+    {
+      #nullable enable
+      ActiveRepairs? joinEntity = _db.ActiveRepairs.FirstOrDefault(join => (join.MachineId == machineId && join.EngineerId == engineer.EngineerId));
+      #nullable disable
+      if (joinEntity == null && machineId !=0)
+      {
+        _db.ActiveRepairs.Add(new ActiveRepairs() { MachineId = machineId, EngineerId = engineer.EngineerId });
+        _db.SaveChanges();
+      }
+      return RedirectToAction("Details", new { id = engineer.EngineerId});
+    }
+
     public ActionResult Edit(int id)
     {
       Engineer thisEngineer = _db.Engineers.FirstOrDefault(engineers => engineers.EngineerId == id);
@@ -101,6 +120,15 @@ namespace Factory.Controllers
     {
       Licensure joinEntry = _db.Licensures.FirstOrDefault(entry => entry.LicensureId == joinId);
       _db.Licensures.Remove(joinEntry);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
+
+    [HttpPost]
+    public ActionResult DeleteActiveRepairs(int joinId)
+    {
+      ActiveRepairs joinEntry = _db.ActiveRepairs.FirstOrDefault(entry => entry.ActiveRepairsId == joinId);
+      _db.ActiveRepairs.Remove(joinEntry);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
