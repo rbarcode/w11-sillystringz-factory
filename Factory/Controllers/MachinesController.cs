@@ -23,15 +23,25 @@ namespace Factory.Controllers
 
     public ActionResult Create()
     {
+      Machine machine = new();
+      ViewBag.Status = new SelectList(machine.availableStatuses);
       return View();
     }
 
     [HttpPost]
     public ActionResult Create(Machine machine)
     {
+      if (!ModelState.IsValid)
+      {
+        return View(machine);
+      }
+      else
+      {
       _db.Machines.Add(machine);
       _db.SaveChanges();
       return RedirectToAction("Index");
+      }
+
     }
 
     public ActionResult Details(int id)
@@ -47,7 +57,10 @@ namespace Factory.Controllers
 
     public ActionResult AddEngineer(int id)
     {
-      Machine thisMachine = _db.Machines.FirstOrDefault(machines => machines.MachineId == id);
+      Machine thisMachine = _db.Machines
+                                .Include(machines => machines.JoinEntitiesLicensure)
+                                .FirstOrDefault(machines => machines.MachineId == id);
+      ViewBag.Engineers = _db.Engineers.ToList();
       ViewBag.EngineerId = new SelectList(_db.Engineers, "EngineerId", "LastName");
       return View(thisMachine);
     }
@@ -68,7 +81,10 @@ namespace Factory.Controllers
 
     public ActionResult AddRepairs(int id)
     {
-      Machine thisMachine = _db.Machines.FirstOrDefault(machines => machines.MachineId == id);
+      Machine thisMachine = _db.Machines
+                                .Include(machines => machines.JoinEntitiesLicensure).ThenInclude(join => join.Engineer)
+                                .Include(machines => machines.JoinEntitiesActiveRepairs)
+                                .FirstOrDefault(machines => machines.MachineId == id);
       ViewBag.EngineerId = new SelectList(_db.Engineers, "EngineerId", "LastName");
       return View(thisMachine);
     }
@@ -90,6 +106,7 @@ namespace Factory.Controllers
     public ActionResult Edit(int id)
     {
       Machine thisMachine = _db.Machines.FirstOrDefault(machines => machines.MachineId == id);
+      ViewBag.Status = new SelectList(thisMachine.availableStatuses);
       return View(thisMachine);
     }
 

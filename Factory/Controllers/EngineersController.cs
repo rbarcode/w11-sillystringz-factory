@@ -55,6 +55,7 @@ namespace Factory.Controllers
       Engineer thisEngineer = _db.Engineers
                                   .Include(engineer => engineer.JoinEntitiesLicensure)
                                   .FirstOrDefault(engineers => engineers.EngineerId == id);
+      ViewBag.Machines = _db.Machines.ToList();
       ViewBag.MachineId = new SelectList(_db.Machines, "MachineId", "Name");
       return View(thisEngineer);
     }
@@ -76,6 +77,7 @@ namespace Factory.Controllers
     public ActionResult AddRepairs(int id)
     {
       Engineer thisEngineer = _db.Engineers
+                                  .Include(engineer => engineer.JoinEntitiesLicensure)
                                   .Include(engineer => engineer.JoinEntitiesActiveRepairs)
                                   .FirstOrDefault(engineers => engineers.EngineerId == id);
       ViewBag.MachineId = new SelectList(_db.Machines, "MachineId", "Name");

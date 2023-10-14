@@ -7,10 +7,10 @@
 
 <h2>Assign a machine for @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName) to repair</h2>
 
-@if (@Model.JoinEntitiesActiveRepairs.Count == 0)
+@if (@Model.JoinEntitiesLicensure.Count == 0)
 {
-  <p>You must add at least one machine to the system first.</p>
-  <p>@Html.ActionLink("Add Machine", "Create", "Machines")</p>
+  <p>You must license @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName) to repair at least one machine first.</p>
+  <p>@Html.ActionLink("Add Licensure", "AddMachine", new { id = Model.EngineerId} )</p>
 }
 else
 {
@@ -26,5 +26,5 @@ else
 }
 <br>
 <p>@Html.ActionLink($"Return to Details for {Model.FirstName} {Model.LastName}", "Details", new { id = Model.EngineerId} )</p>
-<p>@Html.ActionLink("Return List of Engineers", "Index")</p>
+<p>@Html.ActionLink("Return to List of Engineers", "Index")</p>
 <p>@Html.ActionLink("Home", "Index", "Home")</p>

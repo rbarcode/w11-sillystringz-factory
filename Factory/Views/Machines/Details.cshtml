@@ -25,10 +25,14 @@ else
     {
 
       <li>@join.Engineer.FirstName @join.Engineer.LastName</li>
-      @Html.Hidden("joinId", @join.LicensureId)
-      <input type="submit" value="Delete"/>
+      @using (Html.BeginForm("DeleteLicensure", "Machines"))
+      {
+        @Html.Hidden("joinId", @join.LicensureId)
+        <input type="submit" value="Delete"/>
+      }
     }
   </ul>
+  <p>@Html.ActionLink("Add Licensure", "AddEngineer", new { id = Model.MachineId} )</p>
 }
 <br>
 <h4>Active Repairs:</h4>
@@ -43,11 +47,16 @@ else
   <ul>
     @foreach (ActiveRepairs join in Model.JoinEntitiesActiveRepairs)
     {
-      <li>@join.Machine.Name</li>
-      @Html.Hidden("joinId", @join.ActiveRepairsId)
-      <input type="submit" value="Delete"/>
+      <li>@join.Engineer.FirstName @join.Engineer.LastName</li>
+      @using (Html.BeginForm("DeleteActiveRepairs"))
+      {
+        @Html.Hidden("joinId", @join.ActiveRepairsId)
+        <input type="submit" value="Delete"/>
+      }
+      
     }
   </ul>
+    <p>@Html.ActionLink("Assign an Engineer to Repair this Machine", "AddRepairs", new { id = Model.MachineId} )</p>
 }
 <br>
 
